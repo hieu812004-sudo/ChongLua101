@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mô Phỏng Phòng Chống Lừa Đảo - Chống Lừa 101</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-dashboard: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --chat-bg: #f8fafc;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --bg-dashboard: #0b1120;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --chat-bg: #0f172a;
+            --danger: #f87171;
+            --success: #34d399;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        }
+
+        body {
+            background: var(--bg-dashboard);
+            min-height: 100vh;
+            color: var(--text-main);
+            padding: 20px;
+        }
+
+        /* Dashboard Container */
+        .dashboard-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Top Header */
+        .top-header {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-brand h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-brand p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .header-stats-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            background: var(--chat-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-pill strong {
+            color: var(--primary);
+        }
+
+        .mini-progress {
+            width: 60px;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .mini-fill {
+            height: 100%;
+            background: var(--success);
+            transition: width 0.3s ease;
+        }
+
+        /* 3-Column Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 310px 1fr 310px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 1120px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .center-stage {
+                order: -1; /* Đưa điện thoại lên đầu khi xem trên màn hình nhỏ */
+            }
+        }
+
+        /* Sidebars */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .panel-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .panel-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .panel-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13.5px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .control-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .action-chip {
+            background: var(--chat-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .action-chip:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .btn-secondary-full {
+            width: 100%;
+            padding: 11px;
+            background: var(--chat-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .btn-secondary-full:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .scenario-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            background: var(--chat-bg);
+            border: 1px solid var(--border-color);
+            font-size: 11.5px;
+            padding: 5px 9px;
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Center Stage (Phone Mockup Frame) */
+        .center-stage {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 430px;
+            height: 760px;
+            background: var(--bg-card);
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 6px solid var(--border-color);
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Intro Screen */
+        #screen-intro {
+            padding: 28px 24px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--bg-card);
+        }
+
+        .badge-top {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 18px;
+        }
+
+        .hero-icon {
+            font-size: 60px;
+            margin-bottom: 14px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        #screen-intro h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        #screen-intro h1 span {
+            color: var(--primary);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 13.5px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .input-group {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 2px solid var(--border-color);
+            background: var(--chat-bg);
+            color: var(--text-main);
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .note {
+            margin-top: 16px;
+            font-size: 11.5px;
+            color: var(--text-muted);
+        }
+
+        /* Gameplay Header & Chat */
+        .game-header {
+            background: var(--bg-card);
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .score-badge strong {
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            height: 5px;
+            background: var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 10%;
+            background: var(--primary);
+            transition: width 0.4s ease;
+        }
+
+        .sender-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sender-details h3 {
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .status-online {
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 16px;
+            background: var(--chat-bg);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .msg {
+            max-width: 85%;
+            padding: 11px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .msg.scammer {
+            background: var(--bg-card);
+            color: var(--text-main);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .msg.scammer .fake-link {
+            color: var(--primary);
+            text-decoration: underline;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .msg.user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .choices-container {
+            padding: 12px 14px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .choice-btn {
+            width: 100%;
+            text-align: left;
+            padding: 11px 13px;
+            background: var(--chat-bg);
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .choice-btn:hover {
+            background: rgba(37, 99, 235, 0.06);
+            border-color: var(--primary);
+        }
+
+        .feedback-box {
+            padding: 14px 16px;
+            background: var(--bg-card);
+            border-top: 2px solid var(--border-color);
+        }
+
+        .feedback-box.hidden {
+            display: none;
+        }
+
+        .feedback-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .feedback-title.correct { color: var(--success); }
+        .feedback-title.wrong { color: var(--danger); }
+
+        .feedback-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin-bottom: 12px;
+        }
+
+        .btn-next {
+            width: 100%;
+            padding: 11px;
+            background: var(--text-main);
+            color: var(--bg-card);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Result Screen */
+        #screen-result {
+            padding: 20px;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            overflow-y: auto;
+            background: var(--bg-card);
+        }
+
+        .result-header h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .result-header p {
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+
+        .certificate-wrapper {
+            width: 100%;
+            margin: 10px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border: 2px solid var(--border-color);
+        }
+
+        #cert-canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .action-buttons {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-social.fb {
+            width: 100%;
+            padding: 12px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Right Sidebar Components */
+        .progress-stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .mini-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .mini-progress-bar .fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .link-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            padding: 0;
+        }
+
+        .link-btn:hover {
+            text-decoration: underline;
+        }
+
+        .tip-highlight-box {
+            background: rgba(37, 99, 235, 0.06);
+            border-left: 3px solid var(--primary);
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .tip-highlight-box strong {
+            color: var(--text-main);
+        }
+
+        .badge-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .badge-item {
+            background: var(--chat-bg);
+            border: 1px solid var(--border-color);
+            height: 52px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+        }
+
+        .badge-item.locked {
+            opacity: 0.4;
+            filter: grayscale(100%);
+        }
+
+        .badge-item.unlocked {
+            opacity: 1;
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            width: 100%;
+            max-width: 440px;
+            padding: 24px;
+            border-radius: 20px;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .modal-content h2 {
+            font-size: 18px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        .tips-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .tips-list strong {
+            color: var(--text-main);
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            text-align: left;
+        }
+
+        .achievement-card {
+            background: var(--chat-bg);
+            border: 1.5px solid var(--border-color);
+            padding: 12px;
+            border-radius: 12px;
+            opacity: 0.5;
+        }
+
+        .achievement-card.unlocked {
+            opacity: 1;
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .achievement-card h4 {
+            font-size: 13px;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .achievement-card p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- TOP HEADER BAR -->
+        <header class="top-header">
+            <div class="header-brand">
+                <h1>🛡️ Mô Phỏng Phòng Chống Lừa Đảo</h1>
+                <p>Trò chơi tương tác giáo dục — đặt bản thân vào các tình huống lừa đảo trực tuyến tại Việt Nam.</p>
+            </div>
+            <div class="header-stats-bar">
+                <div class="stat-pill">Điểm Cảnh Giác: <strong id="header-score">0</strong></div>
+                <div class="stat-pill">Tình Huống Hoàn Thành: <strong id="header-completed">0/10</strong></div>
+                <div class="stat-pill">
+                    Tiến Trình:
+                    <div class="mini-progress">
+                        <div id="header-progress-fill" class="mini-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+        </header>
+
+        <!-- MAIN 3-COLUMN LAYOUT -->
+        <div class="main-layout">
+            
+            <!-- LEFT SIDEBAR: Cấu hình & Tuỳ chọn -->
+            <aside class="sidebar left-sidebar">
+                <div class="panel-card">
+                    <h3>⚙️ Tuỳ chọn hệ thống</h3>
+                    <div class="control-row">
+                        <span>🌐 Ngôn ngữ</span>
+                        <button id="btn-lang" class="action-chip">🇻🇳 Tiếng Việt</button>
+                    </div>
+                    <div class="control-row">
+                        <span>🌙 Chế độ tối</span>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-switch">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <h3>🎯 Kịch bản có thể gặp </h3>
+                    <p class="panel-desc">Kho kịch bản thực tế, xáo trộn ngẫu nhiên 10 câu mỗi lượt chơi.</p>
+                    <div class="scenario-tags">
+                        <span class="tag">Giả danh Công an</span>
+                        <span class="tag">Việc làm online</span>
+                        <span class="tag">Hack Facebook</span>
+                        <span class="tag">Vé concert giả</span>
+                        <span class="tag">Cướp SIM OTP</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- CENTER COLUMN: Khung điện thoại tương tác -->
+            <main class="center-stage">
+                <div class="app-container">
+                    <!-- MÀN HÌNH 1: INTRO -->
+                    <section id="screen-intro" class="screen active">
+                        <div class="badge-top">🛡️ CHIẾN DỊCH AN TOÀN SỐ ĐỒNG NAI</div>
+                        <div class="hero-icon">🕵️‍♂️</div>
+                        <h1 data-i18n="intro_title">CHỐNG LỪA <span>101</span></h1>
+                        <p class="subtitle" data-i18n="intro_subtitle">Vượt qua 10 thử thách bẫy lừa đảo tinh vi nhất trên điện thoại!</p>
+                        
+                        <div class="input-group">
+                            <label for="player-name" data-i18n="label_name">Nhập họ tên của bạn (để cấp chứng chỉ):</label>
+                            <input type="text" id="player-name" placeholder="Ví dụ: Nguyễn Văn A" maxlength="30">
+                        </div>
+
+                        <button id="btn-start" class="btn-primary" data-i18n="btn_start">BẮT ĐẦU THỬ THÁCH 🚀</button>
+                        <p class="note" data-i18n="note_data">*Mô phỏng chân thực giao diện nhắn tin thực tế.</p>
+                    </section>
+
+                    <!-- MÀN HÌNH 2: GAMEPLAY (CHAT INTERFACE) -->
+                    <section id="screen-game" class="screen">
+                        <header class="game-header">
+                            <div class="progress-info">
+                                <span id="scenario-counter">Tình huống 1/10</span>
+                                <span class="score-badge">Điểm: <strong id="current-score">0</strong></span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="progress-fill" class="progress-fill"></div>
+                            </div>
+                            <div class="sender-profile">
+                                <div id="sender-avatar" class="avatar">👮</div>
+                                <div class="sender-details">
+                                    <h3 id="sender-name">Cán bộ Điều tra</h3>
+                                    <span id="sender-status" class="status-online">● Đang hoạt động</span>
+                                </div>
+                            </div>
+                        </header>
+
+                        <main id="chat-box" class="chat-box"></main>
+
+                        <div id="feedback-box" class="feedback-box hidden">
+                            <div id="feedback-title" class="feedback-title"></div>
+                            <p id="feedback-desc" class="feedback-desc"></p>
+                            <button id="btn-next" class="btn-next" data-i18n="btn_next">Tình huống tiếp theo ➔</button>
+                        </div>
+
+                        <footer id="choices-container" class="choices-container"></footer>
+                    </section>
+
+                    <!-- MÀN HÌNH 3: CHỨNG CHỈ KẾT QUẢ -->
+                    <section id="screen-result" class="screen">
+                        <div class="result-header">
+                            <h2 id="result-rank">XUẤT SẮC!</h2>
+                            <p id="result-summary">Bạn đạt 1000/1000 điểm cảnh giác.</p>
+                        </div>
+
+                        <div class="certificate-wrapper">
+                            <canvas id="cert-canvas" width="800" height="560"></canvas>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button id="btn-download" class="btn-primary" data-i18n="btn_download">⬇️ Tải Chứng Chỉ Về Máy</button>
+                            <button id="btn-share-fb" class="btn-social fb" data-i18n="btn_share">Chia sẻ Facebook</button>
+                            <button id="btn-restart" class="btn-outline" data-i18n="btn_restart">🔄 Chơi lại từ đầu</button>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <!-- RIGHT SIDEBAR: Tiến trình & Thành tựu -->
+            <aside class="sidebar right-sidebar">
+                <div class="panel-card">
+                    <h3>📊 Tiến trình người dùng</h3>
+                    <div class="progress-stat-row">
+                        <span>Đã hoàn thành an toàn:</span>
+                        <strong id="completed-count">0/10</strong>
+                    </div>
+                    <div class="mini-progress-bar">
+                        <div id="sidebar-progress-fill" class="fill" style="width: 0%;"></div>
+                    </div>
+                    <button id="btn-achievements" class="link-btn">🏆 Xem thống kê & huy hiệu ➔</button>
+                </div>
+
+                <div class="panel-card">
+                    <h3>📖 Cẩm nang kiến thức</h3>
+                    <p class="panel-desc">Bài học, tình huống thực tế, trắc nghiệm nhanh giúp nâng cao kỹ năng nhận diện.</p>
+                    <button id="btn-tips" class="btn-secondary-full">💡 Mở Cẩm Nang & Mẹo</button>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+
+    <!-- MODAL: MẸO HAY -->
+    <div id="modal-tips" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>💡 Mẹo Đạt Thành Tích Cao</h2>
+            <ul class="tips-list">
+                <li><strong>1. Cảnh giác link lạ:</strong> Không bấm vào các liên kết có đuôi lạ như (.xyz, .top, .cc).</li>
+                <li><strong>2. Tuyệt đối bảo mật OTP:</strong> Không cung cấp mã OTP, mật khẩu hay mã PIN cho bất kỳ ai.</li>
+                <li><strong>3. Xác thực người thân:</strong> Khi người thân nhắn tin mượn tiền, hãy gọi điện thoại thoại thông thường.</li>
+                <li><strong>4. Không có việc nhẹ lương cao:</strong> Các công việc bắt ứng tiền trước chắc chắn là lừa đảo.</li>
+                <li><strong>5. Cơ quan nhà nước không làm việc qua mạng:</strong> Công an không gọi điện dọa nạt qua Zalo.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MODAL: THÀNH TỰU -->
+    <div id="modal-achievements" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>🏆 Bộ Sưu Tập Huy Hiệu</h2>
+            <div class="achievements-grid" id="achievements-grid"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
