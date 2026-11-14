@@ -103,7 +103,7 @@
         }
 
         .stat-pill strong {
-            color: var(--primary);
+            color: var(--primary); 
         }
 
         .mini-progress {
@@ -929,6 +929,227 @@
             }
         }
 
+
+        /* ===== MOBILE TOOLBAR + SLIDE-OUT PANELS ===== */
+        .mobile-tools,
+        .mobile-drawer-backdrop {
+            display: none;
+        }
+
+        @media (max-width: 1120px) {
+            body {
+                padding: 8px;
+                overflow-x: hidden;
+            }
+
+            .dashboard-wrapper {
+                min-height: 100dvh;
+                gap: 8px;
+            }
+
+            .top-header {
+                padding: 10px 13px;
+                border-radius: 15px;
+                gap: 6px;
+            }
+
+            .header-brand h1 {
+                font-size: clamp(15px, 4vw, 18px);
+            }
+
+            .header-brand p {
+                font-size: 11px;
+                line-height: 1.35;
+            }
+
+            .header-stats-bar {
+                width: 100%;
+                gap: 6px;
+            }
+
+            .stat-pill {
+                flex: 1 1 auto;
+                justify-content: center;
+                padding: 6px 8px;
+                font-size: 10px;
+                gap: 4px;
+            }
+
+            .mobile-tools {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+                position: sticky;
+                top: 6px;
+                z-index: 30;
+                padding: 7px;
+                border: 1px solid var(--border-color);
+                border-radius: 15px;
+                background: var(--bg-card);
+                box-shadow: 0 5px 18px rgba(15, 23, 42, .09);
+            }
+
+            .mobile-tool-btn {
+                min-height: 48px;
+                border: 1px solid var(--border-color);
+                border-radius: 11px;
+                background: var(--chat-bg);
+                color: var(--text-main);
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 7px;
+                font: inherit;
+                font-size: 12px;
+                font-weight: 700;
+                cursor: pointer;
+                touch-action: manipulation;
+            }
+
+            .mobile-tool-btn span {
+                font-size: 17px;
+            }
+
+            .mobile-tool-btn:active {
+                transform: scale(.97);
+                background: var(--border-color);
+            }
+
+            .main-layout {
+                display: flex;
+                flex-direction: column;
+                min-height: 0;
+                flex: 1;
+            }
+
+            .center-stage {
+                order: -1;
+                width: 100%;
+                min-height: 0;
+                flex: 1;
+            }
+
+            .app-container {
+                width: min(100%, 480px);
+                height: calc(100dvh - 190px);
+                min-height: 430px;
+                max-height: 760px;
+                margin: 0 auto;
+                border-radius: 22px;
+            }
+
+            .mobile-drawer {
+                display: flex;
+                position: fixed;
+                z-index: 52;
+                top: 0;
+                bottom: 0;
+                width: min(86vw, 340px);
+                max-width: 340px;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                padding: 16px;
+                background: var(--bg-dashboard);
+                box-shadow: 0 15px 45px rgba(0,0,0,.22);
+                transition: transform .25s ease;
+            }
+
+            .left-sidebar.mobile-drawer {
+                left: 0;
+                padding-top: max(18px, env(safe-area-inset-top));
+                transform: translateX(-105%);
+            }
+
+            .right-sidebar.mobile-drawer {
+                right: 0;
+                padding-top: max(18px, env(safe-area-inset-top));
+                transform: translateX(105%);
+            }
+
+            .mobile-drawer.is-open {
+                transform: translateX(0);
+            }
+
+            .mobile-drawer-backdrop {
+                display: block;
+                position: fixed;
+                inset: 0;
+                z-index: 50;
+                background: rgba(2, 6, 23, .48);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity .2s ease, visibility .2s ease;
+            }
+
+            .mobile-drawer-backdrop.is-visible {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .mobile-drawer .panel-card {
+                width: 100%;
+                flex-shrink: 0;
+            }
+
+            .screen {
+                padding: 18px 14px;
+            }
+
+            .chat-box {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .app-container {
+                height: calc(100dvh - 184px);
+                min-height: 390px;
+                border-radius: 18px;
+            }
+
+            .top-header {
+                padding: 9px 11px;
+            }
+
+            .header-stats-bar .stat-pill {
+                font-size: 9px;
+                padding: 5px 6px;
+            }
+
+            .mobile-tool-btn {
+                min-height: 44px;
+                font-size: 11px;
+            }
+
+            .mobile-tool-btn span {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 1120px) and (max-height: 650px) {
+            .app-container {
+                height: calc(100dvh - 165px);
+                min-height: 350px;
+            }
+
+            .top-header {
+                padding: 6px 10px;
+            }
+
+            .header-brand p {
+                display: none;
+            }
+
+            .mobile-tools {
+                padding: 5px;
+            }
+
+            .mobile-tool-btn {
+                min-height: 38px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -950,11 +1171,26 @@
                 </div>
         </header>
 
+
+        <!-- MOBILE QUICK TOOLS -->
+        <nav class="mobile-tools" aria-label="Công cụ nhanh">
+            <button type="button" class="mobile-tool-btn" id="mobile-open-settings" aria-controls="mobile-settings-panel" aria-expanded="false">
+                <span>⚙️</span><small>Tuỳ chọn</small>
+            </button>
+            <button type="button" class="mobile-tool-btn" id="mobile-open-progress" aria-controls="mobile-progress-panel" aria-expanded="false">
+                <span>📊</span><small>Tiến trình</small>
+            </button>
+            <button type="button" class="mobile-tool-btn" id="mobile-open-guide">
+                <span>📖</span><small>Cẩm nang</small>
+            </button>
+        </nav>
+        <div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
+
         <!-- MAIN 3-COLUMN LAYOUT -->
         <div class="main-layout">
             
             <!-- LEFT SIDEBAR: Cấu hình & Tuỳ chọn -->
-            <aside class="sidebar left-sidebar">
+            <aside class="sidebar left-sidebar mobile-drawer" id="mobile-settings-panel" aria-label="Tuỳ chọn hệ thống">
                 <div class="panel-card">
                     <h3>⚙️ Tuỳ chọn hệ thống</h3>
                     <div class="control-row">
@@ -1053,7 +1289,7 @@
             </main>
 
             <!-- RIGHT SIDEBAR: Tiến trình & Thành tựu -->
-            <aside class="sidebar right-sidebar">
+            <aside class="sidebar right-sidebar mobile-drawer" id="mobile-progress-panel" aria-label="Tiến trình và thành tựu">
                 <div class="panel-card">
                     <h3>📊 Tiến trình người dùng</h3>
                     <div class="progress-stat-row">

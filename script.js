@@ -14,7 +14,7 @@ const i18n = {
         rank_rookie: "TÂN BINH AN TOÀN MẠNG"
     },
     en: {
-        intro_title: "ANTI-SCAM <span>101</span>",
+        intro_title: "ANTI-SCAM <span>101</span>", 
         intro_subtitle: "Overcome 10 sophisticated scam traps on phone interface!",
         label_name: "Enter your full name (for certificate):",
         btn_start: "START CHALLENGE 🚀",
@@ -475,3 +475,64 @@ document.getElementById("btn-restart").addEventListener("click", () => {
 });
 
 updateSidebarWidgets();
+
+// Mobile quick tools: open the existing side panels as slide-out drawers.
+(() => {
+    const settingsPanel = document.getElementById("mobile-settings-panel");
+    const progressPanel = document.getElementById("mobile-progress-panel");
+    const backdrop = document.getElementById("mobile-drawer-backdrop");
+    const settingsButton = document.getElementById("mobile-open-settings");
+    const progressButton = document.getElementById("mobile-open-progress");
+    const guideButton = document.getElementById("mobile-open-guide");
+
+    if (!settingsPanel || !progressPanel || !backdrop) return;
+
+    const closeDrawers = () => {
+        settingsPanel.classList.remove("is-open");
+        progressPanel.classList.remove("is-open");
+        backdrop.classList.remove("is-visible");
+        settingsButton?.setAttribute("aria-expanded", "false");
+        progressButton?.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("drawer-open");
+    };
+
+    const openDrawer = (panel, button) => {
+        closeDrawers();
+        panel.classList.add("is-open");
+        backdrop.classList.add("is-visible");
+        button?.setAttribute("aria-expanded", "true");
+        document.body.classList.add("drawer-open");
+    };
+
+    settingsButton?.addEventListener("click", () => {
+        if (settingsPanel.classList.contains("is-open")) closeDrawers();
+        else openDrawer(settingsPanel, settingsButton);
+    });
+
+    progressButton?.addEventListener("click", () => {
+        if (progressPanel.classList.contains("is-open")) closeDrawers();
+        else openDrawer(progressPanel, progressButton);
+    });
+
+    guideButton?.addEventListener("click", () => {
+        closeDrawers();
+        document.getElementById("btn-tips")?.click();
+    });
+
+    backdrop.addEventListener("click", closeDrawers);
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeDrawers();
+    });
+
+    // Close a drawer after using one of its controls.
+    settingsPanel.addEventListener("click", event => {
+        if (event.target.closest("button")) closeDrawers();
+    });
+    progressPanel.addEventListener("click", event => {
+        if (event.target.closest("button")) closeDrawers();
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 1120) closeDrawers();
+    });
+})();
