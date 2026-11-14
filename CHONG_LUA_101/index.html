@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chống lừa 101 | Công dân số an toàn</title>
+
+    <!-- Kết nối file CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+    <!-- 1. HEADER -->
+    <header class="header">
+        <div class="container navbar">
+
+            <a href="#home" class="logo">
+                <span class="logo-icon">🛡️</span>
+                <span>CHỐNG LỪA <strong>101</strong></span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle"
+                    aria-label="Mở menu" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="nav" id="mainNav">
+                <a href="#home">Trang chủ</a>
+                <a href="#about">Giới thiệu</a>
+                <a href="#features">Tính năng</a>
+                <a href="#missions">Thử thách</a>
+            </nav>
+
+            <a href="#missions" class="btn btn-small">
+                Bắt đầu ngay
+            </a>
+
+        </div>
+    </header>
+
+
+    <!-- 2. HERO SECTION -->
+    <main>
+
+        <section class="hero" id="home">
+            <div class="container hero-content">
+
+                <div class="hero-text">
+                    <span class="tag">
+                        NỀN TẢNG GIÁO DỤC AN TOÀN SỐ
+                    </span>
+
+                    <h1>
+                        Đừng để bị lừa.
+                        <span>Hãy học cách nhận diện!</span>
+                    </h1>
+
+                    <p>
+                        Cùng Chống lừa 101 khám phá những tình huống
+                        lừa đảo trên không gian mạng, rèn luyện kỹ năng
+                        nhận diện và bảo vệ bản thân.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#missions" class="btn">
+                            Khám phá thử thách →
+                        </a>
+
+                        <a href="#about" class="btn btn-outline">
+                            Tìm hiểu thêm
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="security-card">
+                        <div class="shield">🛡️</div>
+                        <h2>BẢO VỆ BẠN</h2>
+                        <p>Nhận diện - Phân tích - Phòng tránh</p>
+                        <div class="security-status">
+                            ● LUÔN CẢNH GIÁC
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- 3. GIỚI THIỆU -->
+        <section class="section" id="about">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="tag">VỀ CHÚNG TÔI</span>
+                    <h2>Chống lừa 101 là gì?</h2>
+                    <p>
+                        Học cách phòng chống lừa đảo thông qua
+                        những trải nghiệm tương tác thực tế.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+
+                    <article class="feature-card">
+                        <div class="feature-icon">📩</div>
+                        <h3>Tình huống thực tế</h3>
+                        <p>
+                            Tiếp cận các hình thức lừa đảo thường gặp
+                            qua tin nhắn và cuộc hội thoại mô phỏng.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">🎮</div>
+                        <h3>Thử thách tương tác</h3>
+                        <p>
+                            Tự đưa ra quyết định và khám phá hậu quả
+                            của từng lựa chọn.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <h3>Chinh phục thử thách</h3>
+                        <p>
+                            Tích lũy điểm số và hoàn thành chứng nhận
+                            Công dân số an toàn.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 4. KHU VỰC THỬ THÁCH -->
+            <section class="missions section" id="missions">
+                <div class="container">
+
+                    <div class="section-heading">
+                        <span class="tag">THỬ THÁCH NHẬN DIỆN</span>
+                        <h2>Bạn có đủ tỉnh táo để không bị lừa?</h2>
+                        <p>
+                            Đọc tình huống, phân tích dấu hiệu và lựa chọn
+                            cách xử lý an toàn nhất.
+                        </p>
+                    </div>
+
+                    <div class="game-container" id="gameContainer">
+                                                
+                        <!-- KHU VỰC TẠO CHỨNG NHẬN -->
+                        <div class="certificate-panel" id="certificatePanel" hidden>
+
+                            <div class="section-heading">
+                                <span class="tag">CHÚC MỪNG BẠN!</span>
+                                <h2>Nhận chứng nhận của bạn</h2>
+                                <p>
+                                    Hãy nhập tên để tạo chứng nhận hoàn thành
+                                    thử thách Chống lừa 101.
+                                </p>
+                            </div>
+
+                            <label for="playerName">Họ và tên của bạn</label>
+
+                            <input
+                                type="text"
+                                id="playerName"
+                                class="certificate-input"
+                                placeholder="Ví dụ: Nguyễn Văn A"
+                                maxlength="50"
+                            >
+
+                            <button class="btn" id="createCertificate">
+                                Tạo chứng nhận
+                            </button>
+
+                            <div class="certificate-preview" id="certificatePreview" hidden>
+                                <canvas id="certificateCanvas" width="1200" height="850">
+                                </canvas>
+
+                                <button class="btn" id="downloadCertificate">
+                                    Tải chứng nhận PNG
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Thanh tiến trình -->
+                        <div class="game-top">
+                            <span id="questionNumber">Tình huống 1/5</span>
+                            <span id="score">Điểm: 0</span>
+                        </div>
+
+                        <div class="game-stats">
+                            <span id="correctCount">Đúng: 0</span>
+                            <span id="partialCount">Chưa an toàn: 0</span>
+                            <span id="wrongCount">Nguy hiểm: 0</span>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+
+                        <!-- Nội dung tình huống -->
+                        <div class="scenario">
+                            <div class="scenario-label">
+                                <span>📱</span> TIN NHẮN MÔ PHỎNG
+                            </div>
+
+                            <div class="chat-message">
+                                <div class="chat-avatar">?</div>
+
+                                <div class="chat-content">
+                                    <strong id="sender">Người lạ</strong>
+                                    <p id="message">
+                                        Nội dung tin nhắn sẽ hiển thị tại đây.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Các lựa chọn -->
+                        <div class="answer-area">
+                            <h3 id="question">
+                                Bạn sẽ xử lý tình huống này như thế nào?
+                            </h3>
+
+                            <div class="answer-options" id="answerOptions">
+                                <!-- JavaScript sẽ tạo các lựa chọn tại đây -->
+                            </div>
+                        </div>
+
+                        <!-- Phản hồi sau khi chọn -->
+                        <div class="feedback" id="feedback" hidden>
+                            <h3 id="feedbackTitle"></h3>
+                            <p id="feedbackText"></p>
+                            <button class="btn" id="nextButton">
+                                Tình huống tiếp theo →
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+
+    </main>
+
+
+    <!-- 5. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <h3>🛡️ CHỐNG LỪA 101</h3>
+            <p>
+                Trang bị kiến thức - Nâng cao cảnh giác -
+                Bảo vệ công dân số.
+            </p>
+            <p class="copyright">
+                © 2026 Chống lừa 101. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- Kết nối file JavaScript -->
+    <script src="js/main.js"></script>
+
+</body>
+</html>
